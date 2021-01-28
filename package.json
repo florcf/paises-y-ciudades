@@ -4,7 +4,7 @@
   "description": "Juego. Relaciona los países con sus ciudades.",
   "main": "src/index.html",
   "scripts": {
-    "start": "parcel serve $npm_package_main -d dist",
+    "start": "parcel serve $npm_package_main",
     "build": "parcel build $npm_packafe_main -d build"
   },
   "repository": {
@@ -16,7 +16,8 @@
     "css3",
     "javascript",
     "parcel",
-    "eslint"
+    "eslint",
+    "live-server"
   ],
   "author": "Florencia Del Castillo Fleitas",
   "license": "ISC",
@@ -25,6 +26,7 @@
   },
   "homepage": "https://github.com/florcf/paises-y-ciudades#readme",
   "devDependencies": {
+    "live-server": "^1.2.1",
     "parcel-bundler": "^1.12.4"
   }
 }
