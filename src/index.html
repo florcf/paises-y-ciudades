@@ -12,16 +12,36 @@
     <title>Países y Ciudades</title>
 </head>
 <body>
-    <h1>Ciudades y Países</h1>
-    <div class="cities">
-        <div class="city">
-            
-        </div>        
-    </div>
-    <div class="countries">
+    <header>
+        <h1>Ciudades y Países</h1>
+    </header>
+    <main>
+        <div id="game-section">
+            <div>
+                <button>Nueva Partida</button>
+                <h3>Tiempo: <span id="time"></span>s</h3>
+            </div>
+            <div id="game">
+                <div id="cities"></div>
+                <div id="countries"></div>
+            </div>
+        </div>
+        <div id="map-section"></div>
+        <div id="chart-section"></div>
+    </main>    
+
+    <template id="cities-template">
+        <div class="city" data-code="">
+            <h3></h3>
+        </div>
+    </template>
+    <template id="countries-template">
         <div class="country">
-            
-        </div>        
-    </div>
+            <div class="name">
+                <h3></h3>
+            </div>
+            <div class="answer"></div>
+        </div>
+    </template>
 </body>
 </html>
