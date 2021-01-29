@@ -14,11 +14,21 @@ const random = (array) => Math.floor(Math.random() * array.length);
 let game = [];
 const nQuestions = 5;
 
+let setIntervalId;
 function play() {
     cleanGameSection();
+
+    setIntervalId = setInterval(timer, 1000);
+
+    playButton.disabled = true;
+
     game = getQuestions();
     cities();
-    countries();
+    countries();    
+}
+
+function endGame() {
+    clearInterval(setIntervalId);
 }
 
 function cleanGameSection() {
@@ -88,6 +98,14 @@ function cities() {
 function countries() {
     const clones = cloneTemplate(game, 'countries');
     showMessyClones(clones, 'countries');
+}
+
+let seconds = 1;
+function timer() {
+    const span = document.querySelector('#time');
+    span.removeChild(span.firstChild);
+    const text = document.createTextNode(seconds++);
+    span.appendChild(text);
 }
 
 $('.city').draggable();
