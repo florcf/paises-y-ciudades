@@ -86,9 +86,8 @@ function cloneTemplate(array, id) {
 
     const clones = []
     array.forEach(item => {
-        // El data-code de las ciudades no es correcto!
-        (id === 'cities') ? div.setAttribute('data-code', item.cityCode) : div.setAttribute('data-code', item.code);
-        titleElement.textContent = item.name;
+        (id === 'cities') ? div.setAttribute('data-code', item[1]) : div.setAttribute('data-code', item.code);
+        (id === 'cities') ? titleElement.textContent = item[0].name : titleElement.textContent = item.name;
         const clone = document.importNode(template.content, true);
         clones.push(clone)
     });
@@ -111,7 +110,7 @@ function showMessyClones(array, id) {
 }
 
 function cities() {
-    const cities = game.map(question => question.cities[random(question.cities)]);
+    const cities = game.map(question => [question.cities[random(question.cities)], question.code]);
     const clones = cloneTemplate(cities, 'cities');
     showMessyClones(clones, 'cities');
 }
