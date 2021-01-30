@@ -1,6 +1,13 @@
 import { gameData } from './questions.js';
+import { map } from './map.js';
+
+window.addEventListener('load', () => {
+    map();
+})
 
 const data = gameData.countries;
+
+
 
 const playButton = document.querySelector('button');
 playButton.addEventListener('click', () => {
@@ -24,7 +31,21 @@ function play() {
 
     game = getQuestions();
     cities();
-    countries();    
+    countries();
+
+
+    $('.city').draggable({
+        cursor: 'grabbing',
+        cursorAt: { bottom: 0 }
+    });
+    $('.country').droppable({
+        drop: () => {
+            alert('Hi!')
+        },
+        accept: '.city' /** Indicará que ciudad es
+        aceptada en el país. Cambiar a selector único. */
+
+    })
 }
 
 function endGame() {
@@ -60,12 +81,12 @@ function cloneTemplate(array, id) {
     const template = document.querySelector(`#${id}-template`);
 
     const div = template.content.querySelector('div:first-child');
-    console.log(div)
 
     const titleElement = template.content.querySelector('h3');
 
     const clones = []
     array.forEach(item => {
+        // El data-code de las ciudades no es correcto!
         (id === 'cities') ? div.setAttribute('data-code', item.cityCode) : div.setAttribute('data-code', item.code);
         titleElement.textContent = item.name;
         const clone = document.importNode(template.content, true);
@@ -90,7 +111,7 @@ function showMessyClones(array, id) {
 }
 
 function cities() {
-    const cities = game.map(question => question.cities[random(question.cities)]);    
+    const cities = game.map(question => question.cities[random(question.cities)]);
     const clones = cloneTemplate(cities, 'cities');
     showMessyClones(clones, 'cities');
 }
@@ -108,12 +129,3 @@ function timer() {
     span.appendChild(text);
 }
 
-$('.city').draggable();
-$('.country').droppable({
-    drop: () => {
-        alert('Hi!')
-    },
-    accept: '.city' /** Indicará que ciudad es
-    aceptada en el país. Cambiar a selector único. */
-
-})

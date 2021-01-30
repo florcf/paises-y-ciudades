@@ -10,3 +10,11 @@ h1 {
     display: flex;
     justify-content: space-around;
 }
+
+.city {
+    cursor: grab;
+}
+
+#map-section {
+    height: 200px;
+}
