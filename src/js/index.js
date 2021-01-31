@@ -7,8 +7,6 @@ window.addEventListener('load', () => {
 
 const data = gameData.countries;
 
-
-
 const playButton = document.querySelector('button');
 playButton.addEventListener('click', () => {
     play();
@@ -24,6 +22,7 @@ const nQuestions = 5;
 let setIntervalId;
 function play() {
     cleanGameSection();
+    timer();
 
     setIntervalId = setInterval(timer, 1000);
 
@@ -33,23 +32,35 @@ function play() {
     cities();
     countries();
 
-
+    let contCorrect = 1;
     $('.city').draggable({
         cursor: 'grabbing',
-        cursorAt: { bottom: 0 }
+        cursorAt: { bottom: 0 },
+        containment: '#game',
+        revert: 'invalid'
     });
     $('.country').droppable({
-        drop: () => {
-            alert('Hi!')
+        drop: function (event, ui) {
+            $(this)
+                .addClass("ui-state-highlight correct")
+
+            $(ui.draggable[0]).draggable('option', 'disabled', true);
+            // Mejor utilizar las clases??
+            if (contCorrect == nQuestions) {
+                endGame();
+            }
+            contCorrect++;            
         },
-        accept: '.city' /** Indicará que ciudad es
-        aceptada en el país. Cambiar a selector único. */
-
+        accept: function(event) {
+            const countryDataCode = $(this)[0].dataset.code;
+            const cityDataCode = event[0].dataset.code;
+            if (countryDataCode === cityDataCode) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     })
-}
-
-function endGame() {
-    clearInterval(setIntervalId);
 }
 
 function cleanGameSection() {
@@ -62,6 +73,14 @@ function cleanGameSection() {
             });
         }
     });
+}
+
+let seconds = 1;
+function timer() {
+    const span = document.querySelector('#time');
+    span.removeChild(span.firstChild);
+    const text = document.createTextNode(seconds++);
+    span.appendChild(text);
 }
 
 function getQuestions() {
@@ -120,11 +139,9 @@ function countries() {
     showMessyClones(clones, 'countries');
 }
 
-let seconds = 1;
-function timer() {
-    const span = document.querySelector('#time');
-    span.removeChild(span.firstChild);
-    const text = document.createTextNode(seconds++);
-    span.appendChild(text);
+function endGame() {
+    playButton.disabled = false;
+    clearInterval(setIntervalId);
+    seconds = 0;
 }
 
