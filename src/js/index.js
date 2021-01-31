@@ -1,5 +1,5 @@
 import { gameData } from './questions.js';
-import { map } from './map.js';
+import { map, moveMap } from './map.js';
 
 window.addEventListener('load', () => {
     map();
@@ -45,6 +45,9 @@ function play() {
                 .addClass("ui-state-highlight correct")
 
             $(ui.draggable[0]).draggable('option', 'disabled', true);
+
+            moveMap(ui.draggable[0]);
+
             // Mejor utilizar las clases??
             if (contCorrect == nQuestions) {
                 endGame();
