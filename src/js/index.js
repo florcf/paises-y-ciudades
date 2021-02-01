@@ -1,8 +1,10 @@
 import { gameData } from './questions.js';
 import { map, moveMap } from './map.js';
+import { drawChart } from './charts.js';
 
 window.addEventListener('load', () => {
     map();
+    drawChart();
 })
 
 const data = gameData.countries;
