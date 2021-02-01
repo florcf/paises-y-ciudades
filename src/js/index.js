@@ -1,10 +1,12 @@
 import { gameData } from './questions.js';
 import { map, moveMap } from './map.js';
-import { drawChart } from './charts.js';
+import { drawChart, updatePieChart } from './charts.js';
+
+// Set a callback to run when the Google Visualization API is loaded.
+google.charts.setOnLoadCallback(drawChart);
 
 window.addEventListener('load', () => {
     map();
-    drawChart();
 })
 
 const data = gameData.countries;
@@ -49,6 +51,8 @@ function play() {
             $(ui.draggable[0]).draggable('option', 'disabled', true);
 
             moveMap(ui.draggable[0]);
+
+            updatePieChart($(this)[0]);
 
             // Mejor utilizar las clases??
             if (contCorrect == nQuestions) {
