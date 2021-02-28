@@ -4,8 +4,13 @@
   "description": "Juego. Relaciona los países con sus ciudades.",
   "main": "src/index.html",
   "scripts": {
-    "start": "parcel serve $npm_package_main",
-    "build": "parcel build $npm_packafe_main -d build",
+    "start": "parcel serve $npm_package_main -d dist",
+    "watch": "parcel watch $npm_package_main",
+    "prebuild": "rm -rf dist build",
+    "build": "parcel build $npm_package_main -d build --public-url /$npm_package_name/",
+    "postbuild": "gh-pages -d build",
+    "deploy": "gh-pages -d build",
+    "clean:cache": "rm -rf .parcel-cache dist build",
     "lint": "eslint .",
     "lintfix": "eslint --fix ."
   },
@@ -33,7 +38,6 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^4.2.1",
-    "gulp": "^4.0.2",
     "jsdoc": "^3.6.6",
     "live-server": "^1.2.1",
     "parcel-bundler": "^1.12.4"
