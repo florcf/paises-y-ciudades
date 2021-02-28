@@ -1,6 +1,6 @@
 import { gameData } from './questions.js';
 import { map, moveMap } from './map.js';
-import { drawChart, updatePieChart } from './charts.js';
+import { drawChart, updatePieChart, updateLineChart } from './charts.js';
 
 // Set a callback to run when the Google Visualization API is loaded.
 google.charts.setOnLoadCallback(drawChart);
@@ -18,11 +18,12 @@ playButton.addEventListener('click', () => {
 
 const random = (array) => Math.floor(Math.random() * array.length);
 
-/** @type {*} */
+/** @type {Array} */
 /** Guarda los datos de cada partida. */
 let game = [];
 const nQuestions = 5;
 
+let gameNumber = 0;
 let setIntervalId;
 function play() {
     cleanGameSection();
@@ -56,6 +57,8 @@ function play() {
 
             // Mejor utilizar las clases??
             if (contCorrect == nQuestions) {
+                const time = seconds - 1;
+                updateLineChart(++gameNumber, time);
                 endGame();
             }
             contCorrect++;            

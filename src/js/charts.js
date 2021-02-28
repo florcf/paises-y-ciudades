@@ -1,15 +1,15 @@
 import { gameData } from './questions.js';
 
-var data;
-var chart;
-var options;
+var pieChartData;
+var pieChartOptions;
+var pieChart;
+
+var lineChartData;
+var lineChartOptions;
+var lineChart;
 
 // Load the Visualization API and the corechart package.
 google.charts.load('current', { 'packages': ['corechart'] });
-
-// Set a callback to run when the Google Visualization API is loaded.
-//google.charts.setOnLoadCallback(drawChart);
-
 
 // Callback that creates and populates a data table,
 // instantiates the pie chart, passes in the data and
@@ -17,12 +17,12 @@ google.charts.load('current', { 'packages': ['corechart'] });
 function drawChart() {
 
     // Create the data table.
-    data = new google.visualization.DataTable();
-    data.addColumn('string', 'Country');
-    data.addColumn('number', 'Relations');
+    pieChartData = new google.visualization.DataTable();
+    pieChartData.addColumn('string', 'Country');
+    pieChartData.addColumn('number', 'Relations');
 
     // Set chart options
-    options = {
+    pieChartOptions = {
         'title': 'Ocurrencias De Países',
         'titleTextStyle': {
             color: 'blue'
@@ -32,35 +32,60 @@ function drawChart() {
     };
 
     // Instantiate and draw our chart, passing in some options.
-    chart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+    pieChart = new google.visualization.PieChart(document.getElementById('pie-chart'));
 
-    //google.visualization.events.addListener(chart, 'ready', updatePieChart);
+    pieChart.draw(pieChartData, pieChartOptions);
 
-    chart.draw(data, options);
+
+    lineChartData = new google.visualization.DataTable();
+    lineChartData.addColumn('number', 'Intentos');
+    lineChartData.addColumn('number', 'Tiempos');
+
+    lineChartOptions = {
+        title: 'Tiempos Por Partida',
+        curveType: 'function',
+        legend: { position: 'rigth' },
+        vAxes: {
+            0: { title: 'Tiempo' }
+        },
+        hAxes: {
+            0: { title: 'Intentos' }
+        }
+    };
+
+    lineChart = new google.visualization.LineChart(document.getElementById('line-chart'));
+
+    lineChart.draw(lineChartData, lineChartOptions);
 }
 
 function updatePieChart(element) {
     const countryCode = element.dataset.code;
     const countryName = gameData.countries.filter(country => country.code === countryCode).map(country => country.name)[0];
 
-    const chartCountryValues = data.getDistinctValues(0);
+    const chartCountryValues = pieChartData.getDistinctValues(0);
     if (!chartCountryValues.includes(countryName)) {
-        data.addRow([countryName, 1]);
+        pieChartData.addRow([countryName, 1]);
     } else {
-        const rowIndex = data.getFilteredRows([{
+        const rowIndex = pieChartData.getFilteredRows([{
             column: 0,
             value: countryName
         }])[0];
-        console.log(rowIndex)
-        let relationsCellValue = data.getValue(rowIndex, 1);
-        console.log(relationsCellValue)
-        data.setValue(rowIndex, 1, relationsCellValue + 1);
+        let relationsCellValue = pieChartData.getValue(rowIndex, 1);
+        pieChartData.setValue(rowIndex, 1, relationsCellValue + 1);
     }
 
-    chart.draw(data, options)
+    pieChart.draw(pieChartData, pieChartOptions)
+}
+
+function updateLineChart(game, time) {
+    lineChartData.addRows([
+        [game, time]
+    ]);
+    lineChart.draw(lineChartData, lineChartOptions);
 }
 
 export {
     drawChart,
-    updatePieChart
+    updatePieChart,
+    updateLineChart
 }
