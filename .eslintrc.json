@@ -13,5 +13,10 @@
     "rules": {
         "indent": ["error", 4],
         "semi": ["error", "always"]
+    },
+    "globals": {
+        "$": "readonly",
+        "google": "readonly",
+        "L": "readonly"
     }
 }

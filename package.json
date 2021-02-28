@@ -12,7 +12,8 @@
     "deploy": "gh-pages -d build",
     "clean:cache": "rm -rf .parcel-cache dist build",
     "lint": "eslint .",
-    "lintfix": "eslint --fix ."
+    "lintfix": "eslint --fix .",
+    "jsdoc": "jsdoc src/js/*.js"
   },
   "repository": {
     "type": "git",
