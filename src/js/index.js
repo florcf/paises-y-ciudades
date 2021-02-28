@@ -47,7 +47,8 @@ function play() {
     $('.country').droppable({
         drop: function (event, ui) {
             $(this)
-                .addClass("ui-state-highlight correct")
+                .children('.answer')
+                .addClass("ui-state-highlight correct-answer")
 
             $(ui.draggable[0]).draggable('option', 'disabled', true);
 

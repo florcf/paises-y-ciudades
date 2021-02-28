@@ -25,7 +25,7 @@ function drawChart() {
     pieChartOptions = {
         'title': 'Ocurrencias De Países',
         'titleTextStyle': {
-            color: 'blue'
+            color: '#007965'
         },
         'width': 400,
         'height': 300
@@ -50,7 +50,9 @@ function drawChart() {
         },
         hAxes: {
             0: { title: 'Intentos' }
-        }
+        },
+        'width': 800,
+        'height': 300
     };
 
     lineChart = new google.visualization.LineChart(document.getElementById('line-chart'));
