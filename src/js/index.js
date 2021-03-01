@@ -7,6 +7,9 @@ google.charts.setOnLoadCallback(drawChart);
 
 window.addEventListener('load', () => {
     map();
+    // Deshabilita el botón de 'Nueva Partida'
+    // para que no se pueda iniciar sin seleccionar nivel.
+    playButton.disabled = true;
 });
 
 /** @type {Array} */
@@ -26,11 +29,34 @@ playButton.addEventListener('click', () => {
  */
 const random = (array) => Math.floor(Math.random() * array.length);
 
+const levelSelect = document.querySelector('#level');
+levelSelect.addEventListener('change', () => {
+    /* Se habilita o deshabilita el botón de
+     * 'Nueva Partida' si se ha seleccionado
+     * un nivel o no. */
+    if (levelSelect.value !== 'select') {
+        playButton.disabled = false;
+    } else {
+        playButton.disabled = true;
+    }
+});
+
+/**
+ * @description Nivel de dificultad seleccionado
+ * por el usuario.
+ * @author Florencia Del Castillo Fleitas
+ */
+const level = () => levelSelect.value;
+
 /** @type {Array} */
 /** Guarda los datos de cada partida. */
 let game = [];
 /** Número de preguntas en la partida. */
-const nQuestions = 5;
+const nQuestions = () => {
+    if (level() === 'easy') { return 3; }
+    if (level() === 'normal') { return 5; }
+    if (level() === 'difficult') { return 7; }
+};
 
 /** Número de partida. */
 let gameNumber = 0;
@@ -48,6 +74,8 @@ function play () {
 
     // Deshabilita el botón de 'Nueva Partida'
     playButton.disabled = true;
+    // Deshabilita el select de nivel.
+    levelSelect.disabled = true;
 
     // Preguntas para cada partida.
     game = getQuestions();
@@ -85,7 +113,7 @@ function play () {
 
             // Mejor utilizar las clases??
             // Si todas las respuestas son correctas...
-            if (contCorrect === nQuestions) {
+            if (contCorrect === nQuestions()) {
                 const time = seconds - 1;
                 // Se actualiza el gráfico de líneas.
                 updateLineChart(++gameNumber, time);
@@ -148,7 +176,7 @@ function timer () {
 function getQuestions () {
     const questions = [];
     let cont = 0;
-    while (cont < nQuestions) {
+    while (cont < nQuestions()) {
         const question = data[random(data)];
         if (!questions.includes(question)) {
             questions.push(question);
@@ -227,12 +255,14 @@ function countries () {
 }
 
 /**
- * @description El botón de 'Nueva Partida' y
+ * @description El botón de 'Nueva Partida', el
+ * select para determinar el nivel del juego y
  * el tiempo vuelven a su estado inicial.
  * @author Florencia Del Castillo Fleitas
  */
 function endGame () {
     playButton.disabled = false;
+    levelSelect.disabled = false;
     clearInterval(setIntervalId);
     seconds = 0;
 }

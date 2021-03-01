@@ -51,7 +51,7 @@ main > div:first-child {
     background: #C6FCED;
 }
 
-button {
+#new-game, select {
     color: #007965;
     background: #fff;
     border: solid 2px #007965;
@@ -60,7 +60,7 @@ button {
     font-weight: bold;
 }
 
-button:disabled {
+#new-game:disabled {
     color: #518163;
     background: #DAE5DD;
     border-color: #518163;
